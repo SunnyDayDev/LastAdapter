@@ -107,7 +107,8 @@ class LastAdapter(private val list: List<Any>,
 
     override fun onBindViewHolder(holder: Holder<ViewDataBinding>, position: Int) {
         val type = getType(position)!!
-        holder.binding.setVariable(getVariable(type), list[position])
+        val model = list[position].let { (it as? AdapterModelWrapper)?.model ?: it }
+        holder.binding.setVariable(getVariable(type), model)
         holder.binding.executePendingBindings()
         @Suppress("UNCHECKED_CAST")
         if (type is AbsType<*>) {
@@ -138,16 +139,21 @@ class LastAdapter(private val list: List<Any>,
     }
 
     override fun getItemId(position: Int): Long {
-        if (hasStableIds()) {
+        
+        return if (hasStableIds()) {
+
             val item = list[position]
-            if (item is StableId) {
-                return item.stableId
-            } else {
-                throw IllegalStateException("${item.javaClass.simpleName} must implement StableId interface.")
+
+            when(item) {
+                is AdapterModelWrapper -> item.stableId ?: throw IllegalStateException("${item.javaClass.simpleName} must have stableId.")
+                is StableId -> item.stableId
+                else -> throw IllegalStateException("${item.javaClass.simpleName} must implement StableId interface.")
             }
+
         } else {
-            return super.getItemId(position)
+            super.getItemId(position)
         }
+
     }
 
     override fun getItemCount() = list.size
