@@ -8,6 +8,4 @@ interface AdapterModelWrapper {
 
     val model: Any
 
-    val stableId: Long? get() = null
-
 }

@@ -145,7 +145,6 @@ class LastAdapter(private val list: List<Any>,
             val item = list[position]
 
             when(item) {
-                is AdapterModelWrapper -> item.stableId ?: throw IllegalStateException("${item.javaClass.simpleName} must have stableId.")
                 is StableId -> item.stableId
                 else -> throw IllegalStateException("${item.javaClass.simpleName} must implement StableId interface.")
             }
