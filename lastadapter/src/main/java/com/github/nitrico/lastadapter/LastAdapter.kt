@@ -88,7 +88,7 @@ class LastAdapter(private val list: List<Any>,
 
 
     override fun onCreateViewHolder(view: ViewGroup, viewType: Int): Holder<ViewDataBinding> {
-        val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, viewType, view, false)
+        val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater!!, viewType, view, false)!!
         val holder = Holder(binding)
         binding.addOnRebindCallback(object : OnRebindCallback<ViewDataBinding>() {
             override fun onPreBind(binding: ViewDataBinding) = recyclerView?.isComputingLayout ?: false
