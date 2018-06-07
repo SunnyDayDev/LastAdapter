@@ -1,15 +1,13 @@
 package com.github.nitrico.lastadapter_sample.ui
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.github.nitrico.lastadapter_sample.R
 
-open class ListFragment : Fragment() {
+open class ListFragment : androidx.fragment.app.Fragment() {
 
     protected lateinit var list: RecyclerView
 
@@ -19,12 +17,12 @@ open class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        list = view.findViewById<RecyclerView>(R.id.list)
+        list = view.findViewById(R.id.list)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        list.layoutManager = LinearLayoutManager(activity)
+        list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
     }
 
 }

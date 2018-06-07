@@ -16,13 +16,13 @@
 
 package com.github.nitrico.lastadapter
 
-import android.databinding.DataBindingUtil
-import android.databinding.ObservableList
-import android.databinding.OnRebindCallback
-import android.databinding.ViewDataBinding
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableList
+import androidx.databinding.OnRebindCallback
+import androidx.databinding.ViewDataBinding
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 
 class LastAdapter(private val list: List<Any>,
                   private val variable: Int? = null,
@@ -35,7 +35,7 @@ class LastAdapter(private val list: List<Any>,
     private val DATA_INVALIDATION = Any()
     private val callback = ObservableListCallback(this)
     private var recyclerView: RecyclerView? = null
-    private var inflater: LayoutInflater? = null
+    private lateinit var inflater: LayoutInflater
 
     private val map = mutableMapOf<Class<*>, BaseType>()
     private var layoutHandler: LayoutHandler? = null
@@ -85,15 +85,13 @@ class LastAdapter(private val list: List<Any>,
 
     fun into(recyclerView: RecyclerView) = apply { recyclerView.adapter = this }
 
-
-
     override fun onCreateViewHolder(view: ViewGroup, viewType: Int): Holder<ViewDataBinding> {
         val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, viewType, view, false)
         val holder = Holder(binding)
         binding.addOnRebindCallback(object : OnRebindCallback<ViewDataBinding>() {
             override fun onPreBind(binding: ViewDataBinding) = recyclerView?.isComputingLayout ?: false
             override fun onCanceled(binding: ViewDataBinding) {
-                if (recyclerView?.isComputingLayout ?: true) {
+                if (recyclerView?.isComputingLayout != false) {
                     return
                 }
                 val position = holder.adapterPosition
@@ -138,15 +136,15 @@ class LastAdapter(private val list: List<Any>,
     }
 
     override fun getItemId(position: Int): Long {
-        if (hasStableIds()) {
+        return if (hasStableIds()) {
             val item = list[position]
             if (item is StableId) {
-                return item.stableId
+                item.stableId
             } else {
                 throw IllegalStateException("${item.javaClass.simpleName} must implement StableId interface.")
             }
         } else {
-            return super.getItemId(position)
+            super.getItemId(position)
         }
     }
 
