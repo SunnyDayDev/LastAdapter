@@ -17,11 +17,14 @@ android {
 }
 
 dependencies {
+    
     compile "androidx.appcompat:appcompat:$versions.androidx"
     compile "androidx.cardview:cardview:$versions.androidx"
     compile "com.google.android.material:material:$versions.androidx"
     compile "androidx.recyclerview:recyclerview:$versions.androidx"
+
     compile "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin"
     kapt "androidx.databinding:databinding-compiler:$versions.gradlePlugin"
+
     compile project(":lastadapter")
 }
