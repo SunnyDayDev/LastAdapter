@@ -28,11 +28,16 @@ class LastAdapter(private val list: List<Any>,
                   private val variable: Int? = null,
                   stableIds: Boolean = false) : RecyclerView.Adapter<Holder<ViewDataBinding>>() {
 
+    companion object {
+
+        private val DATA_INVALIDATION = Any()
+
+    }
+
     constructor(list: List<Any>) : this(list, null, false)
     constructor(list: List<Any>, variable: Int) : this(list, variable, false)
     constructor(list: List<Any>, stableIds: Boolean) : this(list, null, stableIds)
 
-    private val DATA_INVALIDATION = Any()
     private val callback = ObservableListCallback(this)
     private var recyclerView: RecyclerView? = null
     private lateinit var inflater: LayoutInflater
@@ -173,7 +178,14 @@ class LastAdapter(private val list: List<Any>,
 
     private fun getType(position: Int)
             = typeHandler?.getItemType(list[position], position)
-            ?: map[list[position].javaClass]
+            ?: getTypeByClass(clazz = list[position].javaClass)
+
+    private fun getTypeByClass(clazz: Class<*>)
+            = map[clazz]
+            ?: map.keys
+                    .single { it.isAssignableFrom(clazz) }
+                    .also { map[clazz] = map[it]!! }
+                    .let { map[it] }
 
     private fun getVariable(type: BaseType)
             = type.variable
