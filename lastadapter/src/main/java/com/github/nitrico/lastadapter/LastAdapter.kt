@@ -34,8 +34,13 @@ class LastAdapter(private val list: List<Any>,
 
     }
 
+    @Suppress("unused")
     constructor(list: List<Any>) : this(list, null, false)
+
+    @Suppress("unused")
     constructor(list: List<Any>, variable: Int) : this(list, variable, false)
+
+    @Suppress("unused")
     constructor(list: List<Any>, stableIds: Boolean) : this(list, null, stableIds)
 
     private val callback = ObservableListCallback(this)
