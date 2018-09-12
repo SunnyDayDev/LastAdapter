@@ -2,10 +2,10 @@ buildscript {
     ext.versions = [
             sdkMin : 14,
             sdkTarget : 28,
-            buildTools : '28.0.1',
-            gradlePlugin : '3.3.0-alpha03',
-            kotlin : '1.2.51',
-            androidx : '1.0.0-beta01'
+            buildTools : '28.0.2',
+            gradlePlugin : '3.3.0-alpha09',
+            kotlin : '1.2.61',
+            androidx : '1.0.0-rc02'
     ]
     repositories {
         google()
